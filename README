@@ -1,0 +1,43 @@
+DNS RBL Recon Tool v0.1
+
+Summary:
+
+This is a quick and dirty script to do massive lookups on blocks of IPs for listing in DNS Blacklists using asynchronous DNS lookups to boost speed. 
+
+Why would you want this? 
+
+If you are a network operator or ISP, then you may want visibility into your network to see which blocks are on the SPAM radar on the net at any time. This information could be valuable if run regularly on a schedule and logged to a database for trending. 
+
+No matter the size of your network, this can be useful for manually querying lots of blacklists for a few IPs, or a few blacklists for a lot of IPs. Set it up in a cron job and you can get an idea if your mailservers are getting blacklisted... or if other non-mail servers are showing up as blacklisted indicating a compromised host sending spam from your network.
+
+The code supplied here is a quick proof of concept to show that blocks of IPs in CIDR notation can be paired up with selectible DNS RBLs (you decide the ones that matter to you). Theres plenty of room for improvements and I'll clean this up more as I find time and have a need.
+
+Credit to http://www.catonmat.net/blog/asynchronous-dns-resolution for the async dns class 
+
+Configuration:
+
+1. Add the blocks in CIDR format to the MY_BLOCKS list
+2. Add the DNSBLs you care about to the MY_DNSBLS list
+3. set your resolv.conf to use resolvers that wont shut you off for abuse
+
+Usage:
+
+python dnsblrecon.py
+
+Notes:
+
+1. Edit your resolv.conf to use a public resolver that won't mind you blasting them with hundreds of thousands of requestsi. Try using Google's (8.8.8.8) :)
+2. The output will show hits on the RBLS, which means they are listed. The response from those listings will give the reason why they are listed. Nothing has been implemented to handle that information at this point
+
+Dependencies:
+
+netaddr
+   https://github.com/drkjam/netaddr
+adns-pyton
+   http://code.google.com/p/adns-python/
+
+Credits:
+
+Peteris Krumins
+http://www.catonmat.net/blog/asynchronous-dns-resolution 
+.. for the async dns class and the inspiration to use adns for this project
